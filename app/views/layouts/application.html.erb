@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Recipe Manager" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    
+    <% if Rails.env.development? %>
+      <%# In development, load CSS directly from public directory %>
+      <link rel="stylesheet" href="/application.css">
+    <% else %>
+      <%= stylesheet_link_tag "application" %>
+    <% end %>
+  </head>
+
+  <body>
+    <%= yield %>
+    
+    <% if Rails.env.development? %>
+      <%# In development, load JS directly from esbuild server with HMR %>
+      <script type="module" src="http://localhost:3035/assets/application.js"></script>
+      <script>
+        // Enable HMR
+        new EventSource('http://localhost:3035/esbuild').addEventListener('change', () => {
+          console.log('Reloading page...');
+          location.reload();
+        });
+      </script>
+    <% else %>
+      <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <% end %>
+  </body>
+</html>

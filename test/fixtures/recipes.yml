@@ -1,0 +1,42 @@
+# == Schema Information
+#
+# Table name: recipes
+#
+#  id           :integer          not null, primary key
+#  cook_time    :integer          default(0)
+#  description  :text
+#  difficulty   :string           default("medium"), not null
+#  ingredients  :text             not null
+#  instructions :text             not null
+#  prep_time    :integer          default(0)
+#  servings     :integer          default(4)
+#  title        :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_recipes_on_cook_time   (cook_time)
+#  index_recipes_on_difficulty  (difficulty)
+#  index_recipes_on_title       (title)
+#
+
+one:
+  title: MyString
+  description: MyText
+  ingredients: MyText
+  instructions: MyText
+  prep_time: 1
+  cook_time: 1
+  servings: 1
+  difficulty: MyString
+
+two:
+  title: MyString
+  description: MyText
+  ingredients: MyText
+  instructions: MyText
+  prep_time: 1
+  cook_time: 1
+  servings: 1
+  difficulty: MyString
