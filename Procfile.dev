@@ -1,2 +1,2 @@
-web: bin/rails server -p 3000
+web: bin/rails server -b ${RAILS_BIND:-localhost} -p 3000
 js: yarn build:watch
