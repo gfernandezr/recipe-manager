@@ -9,6 +9,7 @@
 #  ingredients  :text             not null
 #  instructions :text             not null
 #  prep_time    :integer          default(0)
+#  rating       :integer
 #  servings     :integer          default(4)
 #  title        :string           not null
 #  created_at   :datetime         not null

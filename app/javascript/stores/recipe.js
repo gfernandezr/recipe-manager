@@ -16,7 +16,8 @@ export const useRecipeStore = defineStore('recipe', {
     filters: {
       search: '',
       difficulty: '',
-      categoryId: ''
+      categoryId: '',
+      rating: ''
     }
   }),
 
@@ -37,7 +38,10 @@ export const useRecipeStore = defineStore('recipe', {
         const matchesCategory = !state.filters.categoryId || 
           (recipe.relationships.categories.data || []).some(cat => cat.id === state.filters.categoryId)
         
-        return matchesSearch && matchesDifficulty && matchesCategory
+        const matchesRating = !state.filters.rating || 
+          (recipe.attributes.rating && recipe.attributes.rating >= parseInt(state.filters.rating))
+        
+        return matchesSearch && matchesDifficulty && matchesCategory && matchesRating
       })
     }
   },
@@ -55,6 +59,7 @@ export const useRecipeStore = defineStore('recipe', {
         if (this.filters.search) params.append('q', this.filters.search)
         if (this.filters.difficulty) params.append('difficulty', this.filters.difficulty)
         if (this.filters.categoryId) params.append('category_id', this.filters.categoryId)
+        if (this.filters.rating) params.append('rating', this.filters.rating)
         
         const response = await axios.get(`/api/v1/recipes?${params.toString()}`)
         
@@ -242,7 +247,8 @@ export const useRecipeStore = defineStore('recipe', {
       this.filters = {
         search: '',
         difficulty: '',
-        categoryId: ''
+        categoryId: '',
+        rating: ''
       }
       this.fetchRecipes(1)
     }

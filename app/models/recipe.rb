@@ -9,6 +9,7 @@
 #  ingredients  :text             not null
 #  instructions :text             not null
 #  prep_time    :integer          default(0)
+#  rating       :integer
 #  servings     :integer          default(4)
 #  title        :string           not null
 #  created_at   :datetime         not null
@@ -31,6 +32,7 @@ class Recipe < ApplicationRecord
   validates :prep_time, :cook_time, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :servings, numericality: { only_integer: true, greater_than: 0 }
   validates :difficulty, inclusion: { in: %w[easy medium hard], message: "must be easy, medium, or hard" }
+  validates :rating, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }, allow_nil: true
   
   # Scopes
   scope :search, ->(query) {
@@ -40,6 +42,7 @@ class Recipe < ApplicationRecord
   scope :by_difficulty, ->(level) { where(difficulty: level) if level.present? }
   scope :by_cook_time, ->(max_time) { where("cook_time <= ?", max_time) if max_time.present? }
   scope :by_category, ->(category_id) { joins(:categories).where(categories: { id: category_id }) if category_id.present? }
+  scope :by_rating, ->(min_rating) { where("rating >= ?", min_rating) if min_rating.present? }
   
   # Instance methods
   def total_time

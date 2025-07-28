@@ -181,6 +181,16 @@
             </select>
           </div>
 
+          <!-- Rating -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+            <RecipeRating 
+              :rating="formData.rating" 
+              :editable="true" 
+              @update:rating="formData.rating = $event"
+            />
+          </div>
+
           <!-- Categories -->
           <div class="sm:col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">Categories</label>
@@ -238,6 +248,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecipeStore } from '../stores/recipe'
 import { useCategoryStore } from '../stores/category'
+import RecipeRating from '../components/RecipeRating.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -260,6 +271,7 @@ const formData = ref({
   cookTime: null,
   servings: 4,
   difficulty: '',
+  rating: null,
   categoryIds: [],
   image: null,
   imageUrl: ''
@@ -299,6 +311,7 @@ const loadRecipe = async () => {
         cookTime: recipe.attributes.cookTime,
         servings: recipe.attributes.servings || 4,
         difficulty: recipe.attributes.difficulty || '',
+        rating: recipe.attributes.rating || null,
         categoryIds: (recipe.relationships?.categories?.data || []).map(cat => cat.id),
         imageUrl: recipe.attributes.imageUrl || ''
       }
@@ -434,6 +447,7 @@ watch(() => route.params.id, (newId) => {
       cookTime: null,
       servings: 4,
       difficulty: '',
+      rating: null,
       categoryIds: [],
       image: null,
       imageUrl: ''

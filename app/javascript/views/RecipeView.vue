@@ -70,6 +70,15 @@
           <span>Serves {{ recipe.attributes.servings }}</span>
         </div>
         
+        <!-- Rating -->
+        <div class="flex items-center">
+          <RecipeRating 
+            :rating="recipe.attributes.rating" 
+            :editable="true" 
+            @update:rating="handleRatingUpdate"
+          />
+        </div>
+        
         <div v-if="recipe.relationships.categories.data.length" class="w-full flex flex-wrap gap-2 mt-2">
           <span 
             v-for="category in getRecipeCategories(recipe.relationships.categories.data)" 
@@ -165,6 +174,7 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecipeStore } from '../stores/recipe'
 import { useCategoryStore } from '../stores/category'
+import RecipeRating from '../components/RecipeRating.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -212,6 +222,18 @@ const deleteRecipe = async () => {
   } catch (err) {
     console.error('Error deleting recipe:', err)
     error.value = 'Failed to delete recipe. Please try again.'
+  }
+}
+
+const handleRatingUpdate = async (newRating) => {
+  try {
+    await recipeStore.updateRecipe({
+      id: recipe.value.id,
+      rating: newRating
+    })
+  } catch (err) {
+    console.error('Error updating rating:', err)
+    error.value = 'Failed to update rating. Please try again.'
   }
 }
 

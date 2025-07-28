@@ -10,6 +10,7 @@ module Api
                          .by_difficulty(params[:difficulty])
                          .by_cook_time(params[:max_cook_time])
                          .by_category(params[:category_id])
+                         .by_rating(params[:rating])
                          .page(params[:page]).per(params[:per_page] || 10)
         
         # Set up serialization context for pagination
@@ -75,7 +76,7 @@ module Api
       
       def recipe_params
         recipe_params = params.require(:recipe).permit(
-          :title, :description, :prep_time, :cook_time, :servings, :difficulty,
+          :title, :description, :prep_time, :cook_time, :servings, :difficulty, :rating,
           category_ids: [],
           ingredients: [],
           instructions: []

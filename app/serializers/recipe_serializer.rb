@@ -9,6 +9,7 @@
 #  ingredients  :text             not null
 #  instructions :text             not null
 #  prep_time    :integer          default(0)
+#  rating       :integer
 #  servings     :integer          default(4)
 #  title        :string           not null
 #  created_at   :datetime         not null
@@ -22,7 +23,7 @@
 #
 class RecipeSerializer < BaseSerializer
   attributes :id, :title, :description, :prep_time, :cook_time, :servings, 
-             :difficulty, :total_time, :image_url, :created_at, :updated_at
+             :difficulty, :rating, :total_time, :image_url, :created_at, :updated_at
   
   has_many :categories, serializer: CategorySerializer
   

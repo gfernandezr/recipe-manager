@@ -31,7 +31,8 @@ recipes = [
     cook_time: 15,
     servings: 4,
     difficulty: 'easy',
-    categories: ['Breakfast', 'Quick & Easy']
+    categories: ['Breakfast', 'Quick & Easy'],
+    rating: 5
   },
   {
     title: 'Vegetable Stir Fry',
@@ -42,7 +43,8 @@ recipes = [
     cook_time: 10,
     servings: 4,
     difficulty: 'easy',
-    categories: ['Lunch', 'Dinner', 'Vegetarian', 'Quick & Easy']
+    categories: ['Lunch', 'Dinner', 'Vegetarian', 'Quick & Easy'],
+    rating: 4
   },
   {
     title: 'Chocolate Chip Cookies',
@@ -53,7 +55,8 @@ recipes = [
     cook_time: 10,
     servings: 48,
     difficulty: 'medium',
-    categories: ['Dessert']
+    categories: ['Dessert'],
+    rating: 3
   }
 ]
 

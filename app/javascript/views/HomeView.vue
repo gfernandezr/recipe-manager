@@ -13,7 +13,7 @@
 
     <!-- Filters -->
     <div class="bg-white rounded-lg shadow p-6 mb-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <div class="md:col-span-2">
           <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
           <input
@@ -48,6 +48,21 @@
             <option v-for="category in categories" :key="category.id" :value="category.id">
               {{ category.attributes.name }}
             </option>
+          </select>
+        </div>
+        <div>
+          <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">Minimum Rating</label>
+          <select
+            id="rating"
+            v-model="filters.rating"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Any Rating</option>
+            <option value="5">5 stars</option>
+            <option value="4">4+ stars</option>
+            <option value="3">3+ stars</option>
+            <option value="2">2+ stars</option>
+            <option value="1">1+ star</option>
           </select>
         </div>
       </div>
@@ -153,6 +168,15 @@
             </div>
           </div>
           
+          <!-- Rating -->
+          <div class="mt-2">
+            <RecipeRating 
+              :rating="recipe.attributes.rating" 
+              :editable="false" 
+              :show-text="false"
+            />
+          </div>
+          
           <div v-if="recipe.relationships.categories.data.length" class="mt-3 pt-3 border-t border-gray-100">
             <div class="flex flex-wrap gap-1">
               <span 
@@ -220,6 +244,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRecipeStore } from '../stores/recipe'
 import { useCategoryStore } from '../stores/category'
+import RecipeRating from '../components/RecipeRating.vue'
 
 const recipeStore = useRecipeStore()
 const categoryStore = useCategoryStore()
@@ -228,7 +253,8 @@ const categoryStore = useCategoryStore()
 const filters = ref({
   search: '',
   difficulty: '',
-  categoryId: ''
+  categoryId: '',
+  rating: ''
 })
 
 // Computed properties
@@ -239,7 +265,7 @@ const categories = computed(() => categoryStore.categories)
 const filteredRecipes = computed(() => recipeStore.filteredRecipes)
 const pagination = computed(() => recipeStore.pagination)
 const hasActiveFilters = computed(() => {
-  return filters.value.search || filters.value.difficulty || filters.value.categoryId
+  return filters.value.search || filters.value.difficulty || filters.value.categoryId || filters.value.rating
 })
 
 // Get visible pages for pagination
@@ -281,7 +307,8 @@ const applyFilters = () => {
   recipeStore.setFilters({
     search: filters.value.search,
     difficulty: filters.value.difficulty,
-    categoryId: filters.value.categoryId
+    categoryId: filters.value.categoryId,
+    rating: filters.value.rating
   })
 }
 
@@ -289,7 +316,8 @@ const resetFilters = () => {
   filters.value = {
     search: '',
     difficulty: '',
-    categoryId: ''
+    categoryId: '',
+    rating: ''
   }
   recipeStore.resetFilters()
 }
@@ -303,7 +331,7 @@ const changePage = (page) => {
 // Watch for filter changes with debounce
 let filterTimeout = null
 watch(
-  () => [filters.value.search, filters.value.difficulty, filters.value.categoryId],
+  () => [filters.value.search, filters.value.difficulty, filters.value.categoryId, filters.value.rating],
   () => {
     clearTimeout(filterTimeout)
     filterTimeout = setTimeout(() => {

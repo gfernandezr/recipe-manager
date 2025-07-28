@@ -1,5 +1,5 @@
 class RecipeDetailSerializer < RecipeSerializer
-  attributes :ingredients, :instructions
+  attributes :ingredients, :instructions, :rating
   
   def ingredients
     return [] unless object.ingredients.present?

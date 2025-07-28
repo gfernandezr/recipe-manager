@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_03_162224) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_28_194739) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,6 +67,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_03_162224) do
     t.string "difficulty", default: "medium", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating"
     t.index ["cook_time"], name: "index_recipes_on_cook_time"
     t.index ["difficulty"], name: "index_recipes_on_difficulty"
     t.index ["title"], name: "index_recipes_on_title"
